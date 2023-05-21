@@ -1,4 +1,6 @@
 import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.Stack;
 
 public class BinarSearchTree <K extends Comparable<K>, V> implements Iterable<BinarSearchTree.Entry<K, V>> {
     private Node root;
@@ -62,10 +64,15 @@ public class BinarSearchTree <K extends Comparable<K>, V> implements Iterable<Bi
             this.key = key;
             this.value = value;
         }
+        public K getKey(){
+            return key;
+        }
+        public V getValue(){
+            return value;
+        }
     }
-
-    //Node class represent a node in a binary tree ds.
-    //It stores a key, value pair and references to its left and right child nodes
+    // Node class represent a node in a binary tree ds.
+    // It stores a key, value pair and references to its left and right child nodes
     private class Node{
         private K key;
         private V value;
@@ -74,6 +81,30 @@ public class BinarSearchTree <K extends Comparable<K>, V> implements Iterable<Bi
         public Node( K key, V value){
             this.key = key;
             this.value = value;
+        }
+    }
+    private class InOrderIterator implements Iterator<Entry<K, V>> {
+        private Stack<Node> stack;
+        public InOrderIterator(){
+            stack = new Stack<>();
+            pushLeftN(root);
+        }
+        private void pushLeftN(Node node){
+            while (node != null){
+                stack.push(node);
+                node = node.left;
+            }
+        }
+        public boolean hasNext(){
+            return !stack.isEmpty();
+        }
+        public Entry<K, V> next(){
+            if (!hasNext()){
+                throw new NoSuchElementException("No more element");
+            }
+            Node curr = stack.pop();
+            pushLeftN(curr.right);
+            return new Entry<>(curr.key, curr.value);
         }
     }
 }
