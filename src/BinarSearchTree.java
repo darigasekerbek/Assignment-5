@@ -47,10 +47,21 @@ public class BinarSearchTree <K extends Comparable<K>, V> implements Iterable<Bi
         }
         return null;
     }
+    public int size(){
+        return size;
+    }
 
     @Override
-    public Iterator<BinarSearchTree.Entry<K, V>> iterator() {
-        return null;
+    public Iterator<Entry<K, V>> iterator() {
+        return new InOrderIterator();
+    }
+    static class Entry <K,V>{
+        private K key;
+        private V value;
+        public Entry ( K key, V value){
+            this.key = key;
+            this.value = value;
+        }
     }
 
     //Node class represent a node in a binary tree ds.
