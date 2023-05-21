@@ -5,9 +5,11 @@ import java.util.Stack;
 public class BinarSearchTree <K extends Comparable<K>, V> implements Iterable<BinarSearchTree.Entry<K, V>> {
     private Node root;
     private int size;
+    // method to insert a key, value pair into tree
     public void put (K key, V value){
         root = putNode(root, key, value);
     }
+    // recursive method to insert a node into tree
     private Node putNode(Node node, K key, V value){
         //If current node is null, create a new node with given key and value
         if (node == null){
@@ -28,11 +30,12 @@ public class BinarSearchTree <K extends Comparable<K>, V> implements Iterable<Bi
         //return modified node
         return node;
     }
+    // method to retrieve value associated with key
     public V get(K key){
         Node node = getNode(root, key);
         return node != null ? node.value : null;
     }
-    //This method search for a node with given key in tree
+    //recursive method that search for a node with given key in tree
     //returns the node if found, or null if the key isn't present
     private Node getNode(Node node, K key){
         while (node != null){
@@ -49,14 +52,16 @@ public class BinarSearchTree <K extends Comparable<K>, V> implements Iterable<Bi
         }
         return null;
     }
+    //return size of the tree
     public int size(){
         return size;
     }
-
+    //iterator method to iterate over thee using in-order traversal
     @Override
     public Iterator<Entry<K, V>> iterator() {
         return new InOrderIterator();
     }
+    //entry class that representing  KV pair
     static class Entry <K,V>{
         private K key;
         private V value;
@@ -106,5 +111,46 @@ public class BinarSearchTree <K extends Comparable<K>, V> implements Iterable<Bi
             pushLeftN(curr.right);
             return new Entry<>(curr.key, curr.value);
         }
+    }
+    //method to remove a node with given key from tree
+    public void delete(K key){
+        root = deleteNode(root, key);
+    }
+    //recursive method to delete a node from tree
+    private Node deleteNode(Node node, K key){
+        if (node == null){
+            return node;
+        }
+        int comparison = key.compareTo(node.key);
+        if(comparison>0){
+            node.right = deleteNode(node.right,key);
+        }
+        else if (comparison<0){
+            node.left = deleteNode(node.left,key);
+        }
+        else{
+            if (node.left == null && node.right == null){
+                node = null;
+            }
+            else if (node.left == null){
+                node = node.right;
+        }
+            else if (node.right == null){
+                node = node.left;
+            }
+            else {
+                Node sr =findMinNode(node.right);
+                node.key = sr.key;
+                node.value = sr.value;
+                node.right = deleteNode(node.right,sr.key);
+            }
+    }
+        return node;
+}
+private Node findMinNode(Node node){
+    while (node.left != null){
+        node = node.left;
+    }
+    return node;
     }
 }
