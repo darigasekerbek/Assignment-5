@@ -14,5 +14,7 @@ public class Main {
         for (BinarSearchTree.Entry<Integer,String> entry : b_tree){
             System.out.println("Key is " + entry.getKey() + " and value is " + entry.getValue());
         }
+        int h = b_tree.getH();
+        System.out.println("Height of binary tree is " + h);
     }
 }

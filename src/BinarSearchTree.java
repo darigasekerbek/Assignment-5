@@ -76,7 +76,7 @@ public class BinarSearchTree <K extends Comparable<K>, V> implements Iterable<Bi
             return value;
         }
     }
-    // Node class represent a node in a binary tree ds.
+    // Node class represent a node in a binary tree data structure.
     // It stores a key, value pair and references to its left and right child nodes
     private class Node{
         private K key;
@@ -147,10 +147,25 @@ public class BinarSearchTree <K extends Comparable<K>, V> implements Iterable<Bi
     }
         return node;
 }
-private Node findMinNode(Node node){
+    public Node findMinNode(Node node){ // defence 5-assignment (1 task)
     while (node.left != null){
         node = node.left;
     }
     return node;
+    }
+    public int getH() {
+        return findHeightBinaryTree;
+    }
+    public class findHeightBinaryTree{ // defence 5-assignment (2 task)
+        public int height(Node node) {
+            if (node == null) {
+                return 0;
+            }
+            else {
+                int leftside = height(node.left);
+                int rightside = height(node.right);
+                return Math.max(leftside, rightside) + 1;
+            }
+        }
     }
 }
