@@ -153,17 +153,17 @@ public class BinarSearchTree <K extends Comparable<K>, V> implements Iterable<Bi
     }
     return node;
     }
-    public int getH() {
-        return findHeightBinaryTree;
+    public int getHeight() {
+        return findHeightBinaryTree(root);
     }
-    public class findHeightBinaryTree{ // defence 5-assignment (2 task)
-        public int height(Node node) {
+    private int findHeightBinaryTree(Node node){ // defence 5-assignment (2 task)
+         {
             if (node == null) {
                 return 0;
             }
             else {
-                int leftside = height(node.left);
-                int rightside = height(node.right);
+                int leftside = findHeightBinaryTree(node.left);
+                int rightside = findHeightBinaryTree(node.right);
                 return Math.max(leftside, rightside) + 1;
             }
         }
